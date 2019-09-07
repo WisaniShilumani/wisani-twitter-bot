@@ -66,10 +66,10 @@ npm install npm@latest -g
 * Install the NPM dependencies ```npm i```
 
 2. Firebase config for twitter api keys
-* Set up Twitter API Key ```firebase functions config set twitter.api_key="<TWITTER API KEY>"```
-* Set up Twitter API Secret ```firebase functions config set twitter.api_secret="<TWITTER API KEY SECRET>"```
-* Set up Twitter Access Token ```firebase functions config set twitter.access_token="<TWITTER ACCESS TOKEN>"```
-* Set up Twitter Access Token Secret ```firebase functions config set twitter.access_token_secret="<TWITTER ACCESS TOKEN SECRET>"```
+* Set up Twitter API Key ```firebase functions:config:set twitter.api_key="<TWITTER API KEY>"```
+* Set up Twitter API Secret ```firebase functions:config:set twitter.api_secret="<TWITTER API KEY SECRET>"```
+* Set up Twitter Access Token ```firebase functions:config:set twitter.access_token="<TWITTER ACCESS TOKEN>"```
+* Set up Twitter Access Token Secret ```firebase functions:config:set twitter.access_token_secret="<TWITTER ACCESS TOKEN SECRET>"```
 
 ## Usage
 Run ```firebase deploy```

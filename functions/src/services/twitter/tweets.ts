@@ -1,6 +1,10 @@
 
 import * as functions from 'firebase-functions';
-import twitter, { UPDATE_STATUS, SEARCH_TWEETS } from './config'
+import * as admin from 'firebase-admin'
+import twitter, { UPDATE_STATUS, USER_TIMELINE } from './config'
+
+admin.initializeApp(functions.config().firebase)
+
 const cors = require('cors')({
   origin: true,
 })
@@ -9,14 +13,100 @@ interface ResponseData {
   [key: string]: any;
 }
 
-const searchTweets = async (): Promise<boolean | any> => {
+interface User {
+  id: number;
+  name: string;
+}
+
+interface ExtendedTweet {
+  full_text: string;
+  display_text_range: number[];
+  entities: any
+}
+
+interface Tweet {
+  created_at: string;
+  id: number;
+  text: string;
+  user: User;
+  extended_tweet: ExtendedTweet
+}
+
+interface TweetsResponse {
+  statuses: Tweet[]
+}
+
+const EVERY_MINUTE = '* * * * *'
+// const everyHour = '0 * * * *'
+
+const updateCallback = (onSuccess: any) => (error: any, response: ResponseData) => {
+  if (error) throw new Error;
+  onSuccess(response)
+}
+
+const promiseCallback = (resolve: any, reject: any) => (error: any, response: ResponseData) => {
+  if (error) return reject(error)
+  resolve(response)
+}
+
+const getUserTweets = async (): Promise<TweetsResponse | any> => {
   return new Promise((resolve, reject) => {
-    twitter.get(SEARCH_TWEETS, { q: '@wisanishilumani' }, (error: any, tweets: ResponseData, response: any) => {
-      if (error) reject(error)
-      resolve(tweets)
-    });
+    twitter.get(USER_TIMELINE, {
+      screen_name: 'wisanishilumani',
+      include_rts: false,
+      exclude_replies: true
+    }, promiseCallback(resolve, reject))
   })
 }
+
+const getLastFirebaseObject = (object: any) => {
+  const keys = Object.keys(object)
+  const key = keys[keys.length - 1]
+  return {
+    key,
+    object: object[key]
+  }
+}
+
+
+export const tweetHaiku = functions.pubsub.schedule('5 09 * * *').onRun(async (): Promise<any> => {
+  try {
+    const haikus = await admin.database().ref(`haikus`).once('value')
+    if (!haikus) return null;
+    const { key, object } = getLastFirebaseObject(haikus.val())
+    const onSuccess = async () => {
+      await admin.database().ref(`haikus/${key}`).remove()
+    }
+
+    twitter.post(UPDATE_STATUS, {
+      status: `${object.line1}\n${object.line2}\n${object.line3}\n\n- ${object.author}\n#haiku`
+    }, updateCallback(onSuccess))
+  } catch (error) {
+    console.error('ENCOUNTERED AN ERROR: ', error)
+  }
+
+  return null;
+})
+
+// const quoteSchedule = 'every 6 hours from 11:00 to 00:00'
+export const tweetQuote = functions.pubsub.schedule(EVERY_MINUTE).onRun(async (): Promise<any> => {
+  try {
+    const quotes = await admin.database().ref(`quotes`).once('value')
+    if (!quotes) return null;
+    const { key, object } = getLastFirebaseObject(quotes.val())
+    const onSuccess = async () => {
+      await admin.database().ref(`quotes/${key}`).remove()
+    }
+
+    twitter.post(UPDATE_STATUS, {
+      status: `"${object.text}" - \n${object.author}`
+    }, updateCallback(onSuccess))
+  } catch (error) {
+    console.error('ENCOUNTERED AN ERROR: ', error)
+  }
+
+  return null;
+})
 
 // const tweetNewHaiku = () => {
 //   twitter.post(UPDATE_STATUS, {
@@ -24,10 +114,29 @@ const searchTweets = async (): Promise<boolean | any> => {
 //   }, tweetCallback)
 // }
 
-export const logTweets = functions.pubsub.schedule('every 2 minutes').onRun(async () => {
+const btoa = (text: string): string =>  Buffer.from(text).toString('base64')
+
+export const logTweets = functions.pubsub.schedule(EVERY_MINUTE).onRun(async () => {
   try {
-    const tweets = await searchTweets()
-    console.log('FOUND TWEETS: ', tweets)
+    const myTweets: Tweet[] = await getUserTweets()
+    const excludeMentions = (tweet: Tweet) => tweet.text.indexOf('@') === -1
+    const cleanTweets = myTweets.filter(excludeMentions)
+    if (!cleanTweets || !cleanTweets.length) return null;
+
+    const latestTweet = cleanTweets[0]
+    const tweetKey = btoa(latestTweet.text)
+
+    const tweetArchive = await admin.database().ref(`tweet_history/${tweetKey}`).once('value')
+
+    if (!tweetArchive || !tweetArchive.val()) {
+      const onSuccess = async () => {
+        await admin.database().ref('tweet_history').update({ [tweetKey]: latestTweet.text})
+      }
+
+      twitter.post(UPDATE_STATUS, {
+        status: `"${latestTweet.text}" - @wisanishilumani`
+      }, updateCallback(onSuccess))
+    }
   } catch (error) {
     console.error('ENCOUNTERED AN ERROR: ', error)
   }

@@ -1,3 +1,3 @@
-import { logTweets, firstTweet } from './tweets'
+import { logTweets, tweetHaiku, tweetQuote } from './tweets'
 
-export { logTweets, firstTweet }
+export { logTweets, tweetHaiku, tweetQuote }

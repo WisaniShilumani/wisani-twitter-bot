@@ -12,6 +12,7 @@ const twitter = new Twitter({
 
 export const UPDATE_STATUS = 'statuses/update'
 export const RETWEET_STATUS = 'statuses/retweet'
+export const USER_TIMELINE = 'statuses/user_timeline'
 export const SEARCH_TWEETS = 'search/tweets'
 
 export default twitter
