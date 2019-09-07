@@ -37,7 +37,6 @@ interface TweetsResponse {
 }
 
 const USERNAME = '@wisanishilumani'
-// const EVERY_MINUTE = '* * * * *'
 const EVERY_HOUR = '0 * * * *'
 
 const btoa = (text: string): string => Buffer.from(text).toString('base64').substr(0, 32)
