@@ -36,8 +36,9 @@ interface TweetsResponse {
   statuses: Tweet[]
 }
 
-const EVERY_MINUTE = '* * * * *'
-// const everyHour = '0 * * * *'
+const USERNAME = '@wisanishilumani'
+// const EVERY_MINUTE = '* * * * *'
+const EVERY_HOUR = '0 * * * *'
 
 const updateCallback = (onSuccess: any) => (error: any, response: ResponseData) => {
   if (error) throw new Error;
@@ -88,8 +89,7 @@ export const tweetHaiku = functions.pubsub.schedule('5 09 * * *').onRun(async ()
   return null;
 })
 
-// const quoteSchedule = 'every 6 hours from 11:00 to 00:00'
-export const tweetQuote = functions.pubsub.schedule(EVERY_MINUTE).onRun(async (): Promise<any> => {
+export const tweetQuote = functions.pubsub.schedule('every 6 hours from 11:00 to 00:00').onRun(async (): Promise<any> => {
   try {
     const quotes = await admin.database().ref(`quotes`).once('value')
     if (!quotes) return null;
@@ -114,27 +114,24 @@ export const tweetQuote = functions.pubsub.schedule(EVERY_MINUTE).onRun(async ()
 //   }, tweetCallback)
 // }
 
-const btoa = (text: string): string =>  Buffer.from(text).toString('base64')
+const btoa = (text: string): string => Buffer.from(text).toString('base64').substr(0, 32)
 
-export const logTweets = functions.pubsub.schedule(EVERY_MINUTE).onRun(async () => {
+export const logTweets = functions.pubsub.schedule(EVERY_HOUR).onRun(async () => {
   try {
     const myTweets: Tweet[] = await getUserTweets()
     const excludeMentions = (tweet: Tweet) => tweet.text.indexOf('@') === -1
     const cleanTweets = myTweets.filter(excludeMentions)
     if (!cleanTweets || !cleanTweets.length) return null;
-
     const latestTweet = cleanTweets[0]
     const tweetKey = btoa(latestTweet.text)
-
     const tweetArchive = await admin.database().ref(`tweet_history/${tweetKey}`).once('value')
-
     if (!tweetArchive || !tweetArchive.val()) {
       const onSuccess = async () => {
         await admin.database().ref('tweet_history').update({ [tweetKey]: latestTweet.text})
       }
 
       twitter.post(UPDATE_STATUS, {
-        status: `"${latestTweet.text}" - @wisanishilumani`
+        status: `"${latestTweet.text}" - ${USERNAME}`
       }, updateCallback(onSuccess))
     }
   } catch (error) {
@@ -146,7 +143,7 @@ export const logTweets = functions.pubsub.schedule(EVERY_MINUTE).onRun(async () 
 
 export const firstTweet = (req: any, res: any) => cors(req, res, async () => {
     twitter.post(UPDATE_STATUS, {
-      status: `Hi, I'm @wisanishilumani's twitter bot account. Uhm, I'm a bot, so I don't really have interests to share...but if you insist, I would like more processing power?`
+      status: `Hi, I'm ${USERNAME}'s twitter bot account. Uhm, I'm a bot, so I don't really have interests to share...but if you insist, I would like more processing power?`
     }, (error: any, response: any) => {
       if (error) res.send(error)
       console.log('Tweeted boet!')
