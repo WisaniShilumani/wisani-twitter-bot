@@ -40,6 +40,8 @@ const USERNAME = '@wisanishilumani'
 // const EVERY_MINUTE = '* * * * *'
 const EVERY_HOUR = '0 * * * *'
 
+const btoa = (text: string): string => Buffer.from(text).toString('base64').substr(0, 32)
+
 const updateCallback = (onSuccess: any) => (error: any, response: ResponseData) => {
   if (error) throw new Error;
   onSuccess(response)
@@ -108,15 +110,7 @@ export const tweetQuote = functions.pubsub.schedule('every 6 hours from 11:00 to
   return null;
 })
 
-// const tweetNewHaiku = () => {
-//   twitter.post(UPDATE_STATUS, {
-//     status: 'I love cake and twitter bots'
-//   }, tweetCallback)
-// }
-
-const btoa = (text: string): string => Buffer.from(text).toString('base64').substr(0, 32)
-
-export const logTweets = functions.pubsub.schedule(EVERY_HOUR).onRun(async () => {
+export const quoteMyTweets = functions.pubsub.schedule(EVERY_HOUR).onRun(async () => {
   try {
     const myTweets: Tweet[] = await getUserTweets()
     const excludeMentions = (tweet: Tweet) => tweet.text.indexOf('@') === -1
@@ -141,13 +135,34 @@ export const logTweets = functions.pubsub.schedule(EVERY_HOUR).onRun(async () =>
   return null
 });
 
-export const firstTweet = (req: any, res: any) => cors(req, res, async () => {
-    twitter.post(UPDATE_STATUS, {
-      status: `Hi, I'm ${USERNAME}'s twitter bot account. Uhm, I'm a bot, so I don't really have interests to share...but if you insist, I would like more processing power?`
-    }, (error: any, response: any) => {
-      if (error) res.send(error)
-      console.log('Tweeted boet!')
-      res.send(response)
+export const addHaiku = (req: any, res: any) => cors(req, res, async () => {
+  const { line1, line2, line3, author } = req.query
+  try {
+    await admin.database().ref(`haikus`).push({
+      line1,
+      line2,
+      line3,
+      author
     })
-  })
 
+    res.send({ line1, line2, line3, author })
+  } catch (error) {
+    console.error(error)
+    res.send({ error })
+  }
+})
+
+export const addQuote = (req: any, res: any) => cors(req, res, async () => {
+  const { text, author } = req.query
+  try {
+    await admin.database().ref(`quotes`).push({
+      text,
+      author
+    })
+
+    res.send({ text, author })
+  } catch (error) {
+    console.error(error)
+    res.send({ error })
+  }
+})

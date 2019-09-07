@@ -1,7 +1,10 @@
-import { logTweets, tweetHaiku, tweetQuote } from './services/twitter'
+import * as functions from 'firebase-functions'
+import { quoteMyTweets, tweetHaiku, tweetQuote, addHaiku, addQuote } from './services/twitter'
 
 exports.tweets = {
-  logTweets,
+  quoteMyTweets,
   tweetHaiku,
-  tweetQuote
+  tweetQuote, 
+  addHaiku: functions.https.onRequest(addHaiku),
+  addQuote: functions.https.onRequest(addQuote),
 }
