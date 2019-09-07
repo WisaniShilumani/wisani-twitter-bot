@@ -1,6 +1,6 @@
-// import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions';
 
-import { logTweets } from './services/twitter'
+import { logTweets, firstTweet } from './services/twitter'
 
 
 // // Start writing Firebase Functions
@@ -11,3 +11,4 @@ import { logTweets } from './services/twitter'
 // });
 
 exports.logTweets = logTweets
+exports.firstTweet = functions.https.onRequest(firstTweet);

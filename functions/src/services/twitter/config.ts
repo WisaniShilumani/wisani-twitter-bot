@@ -10,8 +10,8 @@ const twitter = new Twitter({
   access_token_secret: access_token_secret
 })
 
-export const UPDATE_STATUS = 'status/update'
-export const RETWEET_STATUS = 'status/retweet'
+export const UPDATE_STATUS = 'statuses/update'
+export const RETWEET_STATUS = 'statuses/retweet'
 export const SEARCH_TWEETS = 'search/tweets'
 
 export default twitter
