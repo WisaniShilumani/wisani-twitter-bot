@@ -55,22 +55,21 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+1. NPM
 ```sh
 npm install npm@latest -g
 ```
 
 ### Installation
-* firebase functions and dependencies
-1. Navigate into the functions directory ```cd functions```
-2. Install the NPM dependencies ```npm i```
+1. Firebase functions and dependencies
+* Navigate into the functions directory ```cd functions```
+* Install the NPM dependencies ```npm i```
 
-* firebase config for twitter api keys
-1. API Key
-```firebase functions config set twitter.api_key="<TWITTER API KEY>"```
-```firebase functions config set twitter.api_secret="<TWITTER API KEY SECRET>"```
-```firebase functions config set twitter.access_token="<TWITTER ACCESS TOKEN>"```
-```firebase functions config set twitter.access_token_secret="<TWITTER ACCESS TOKEN SECRET>"```
+2. Firebase config for twitter api keys
+* Set up Twitter API Key ```firebase functions config set twitter.api_key="<TWITTER API KEY>"```
+* Set up Twitter API Secret ```firebase functions config set twitter.api_secret="<TWITTER API KEY SECRET>"```
+* Set up Twitter Access Token ```firebase functions config set twitter.access_token="<TWITTER ACCESS TOKEN>"```
+* Set up Twitter Access Token Secret ```firebase functions config set twitter.access_token_secret="<TWITTER ACCESS TOKEN SECRET>"```
 
 ## Usage
 Run ```firebase deploy```
@@ -94,6 +93,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@wisanishilumani](https://twitter.com/wisanishilumani) - wshilumani@gmail.com
+Wisani Shilumani - [@wisanishilumani](https://twitter.com/wisanishilumani) - wshilumani@gmail.com
 
 Project Link: [https://github.com/WisaniShilumani/wisani-twitter-bot](https://github.com/WisaniShilumani/wisani-twitter-bot)
