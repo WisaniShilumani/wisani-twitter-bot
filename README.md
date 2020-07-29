@@ -55,6 +55,12 @@ I changed the purpose of the project in July 2020, after realising that I could 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
+### Creating a twitter bot account
+
+https://dev.to/oohsinan/how-to-build-a-simple-twitter-bot-in-17-lines-ofcode-2aan
+
+#### NB: If you don't want to run the code yourself, but would like to take part - send me a tweet at @wisanishilumani
+
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
