@@ -21,7 +21,7 @@ const getTwoRandomHandles = (): string => {
 const getRandomTweet = (): string => tweets[Math.round(Math.random() * (tweets.length - 1))];
 
 export const askGovtAboutGBV = functions.pubsub
-  .schedule('every 5 minutes from 06:00 to 00:00')
+  .schedule('every 2 hours from 06:00 to 00:00')
   .timeZone(TIMEZONE)
   .onRun(
     async (): Promise<any> => {
