@@ -5,6 +5,7 @@
   </a>
 
   <h3 align="center">Wisani's Twitter Activist Bot</h3>
+  <a href="https://twitter.com/wisani_bot">Follow the bot on twitter</a>
 
   <p align="center">
     Just a twitter bot, doing twitter bot things.

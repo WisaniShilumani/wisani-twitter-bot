@@ -9,8 +9,10 @@ const TIMEZONE = 'Africa/Johannesburg';
 const handlesToTweet = ['@CyrilRamaphosa', '@PresidencyZA'];
 
 const tweets = [
-  'What laws are you putting in place to #EndGBV in South Africa?',
-  'What are you doing to #EndGBV in South Africa?',
+  'What laws are you putting in place to #EndGBV in South Africa? #VoetsekANC #ANCMustFall',
+  'What are you doing to #EndGBV in South Africa? #VoetsekANC #ANCMustFall',
+  'What laws are you putting in place to end corruption in South Africa? #VoetsekANC #ANCMustFall',
+  'What are you doing to end corruption in South Africa? #VoetsekANC #ANCMustFall',
 ];
 
 const getTwoRandomHandles = (): string => {
@@ -21,7 +23,7 @@ const getTwoRandomHandles = (): string => {
 const getRandomTweet = (): string => tweets[Math.round(Math.random() * (tweets.length - 1))];
 
 export const askGovtAboutGBV = functions.pubsub
-  .schedule('every 2 hours from 06:00 to 00:00')
+  .schedule('every 30 minutes from 06:00 to 00:00')
   .timeZone(TIMEZONE)
   .onRun(
     async (): Promise<any> => {
