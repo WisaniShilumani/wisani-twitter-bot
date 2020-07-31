@@ -64,10 +64,12 @@ To get a local copy up and running follow these simple example steps.
 
 #### 2. Create an application on the account
 
-> Use this link: https://developer.twitter.com/en/apps
-> Once your application has been created and approved (can take anywhere from 1-5 days) you should be able to manage it.
+> While logged in to the NEW account, go to this link: https://developer.twitter.com/en/apps
+> Ensure that the profile on the top right is indeed on your new account
+> Create a new application and fill in all the details on the form
+> Once your application has been created, wait for it to be approved (can take anywhere from 1-5 days) you should be able to manage it.
 
-#### 3. Copy your keys and create an access token and save them somewhere
+#### 3. Once approved, copy your keys and create an access token and save them somewhere
 
 > In the ‘Application Management’ section, where you will need to take a note of your keys. You should have your ‘Consumer Key (API Key)’ and ‘Consumer Secret (API Secret)’ already available.
 
