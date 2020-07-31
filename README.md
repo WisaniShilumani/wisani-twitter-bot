@@ -58,19 +58,20 @@ To get a local copy up and running follow these simple example steps.
 
 ### Creating a twitter bot account
 
-1. Create a new Twitter account, don't use your own.
+#### 1. Create a new Twitter account, don't use your own.
 
-- Easiest way to do this is to open an incognito tab and go to https://twitter.com
+> Easiest way to do this is to open an incognito tab and go to https://twitter.com
 
-2. Create an application on the account
+#### 2. Create an application on the account
 
-- Use this link: https://developer.twitter.com/en/apps
-- Once your application has been created and approved (can take anywhere from 1-5 days) you should be able to manage it.
+> Use this link: https://developer.twitter.com/en/apps
+> Once your application has been created and approved (can take anywhere from 1-5 days) you should be able to manage it.
 
-3. Copy your keys and create an access token and save them somewhere
-   In the ‘Application Management’ section, where you will need to take a note of your keys. You should have your ‘Consumer Key (API Key)’ and ‘Consumer Secret (API Secret)’ already available.
+#### 3. Copy your keys and create an access token and save them somewhere
 
-You’ll need to scroll to the bottom of the page and click the Create my access token to get the ‘Access Token’ and ‘Access Token Secret’ take note of all four of them you’ll need them when setting up the bot.
+> In the ‘Application Management’ section, where you will need to take a note of your keys. You should have your ‘Consumer Key (API Key)’ and ‘Consumer Secret (API Secret)’ already available.
+
+> You’ll need to scroll to the bottom of the page and click the Create my access token to get the ‘Access Token’ and ‘Access Token Secret’ take note of all four of them you’ll need them when setting up the bot.
 
 #### NB: If you don't want to run the code yourself, but would like to take part - send me a tweet at @wisanishilumani
 
