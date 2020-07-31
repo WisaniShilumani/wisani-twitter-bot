@@ -58,7 +58,10 @@ To get a local copy up and running follow these simple example steps.
 
 ### Creating a twitter bot account
 
-1. Create a new Twitter account (Don't use your own)
+1. Create a new Twitter account, don't use your own.
+
+- Easiest way to do this is to open an incognito tab and go to https://twitter.com
+
 2. Create an application on the account
 
 - Use this link: https://developer.twitter.com/en/apps
